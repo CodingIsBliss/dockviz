@@ -133,7 +133,9 @@ func (x *ImagesCommand) Execute(args []string) error {
 		}
 	}
 
+	fmt.println("1")
 	if imagesCommand.Tree || imagesCommand.Dot {
+		fmt.println("2")
 		var startImage *Image
 		if len(args) > 0 {
 			startImage, err = findStartImage(args[0], images)
@@ -152,6 +154,7 @@ func (x *ImagesCommand) Execute(args []string) error {
 			roots = []Image{*startImage}
 		}
 
+		fmt.println("3")
 		// build helper map (image -> children)
 		imagesByParent := collectChildren(images)
 
@@ -169,12 +172,14 @@ func (x *ImagesCommand) Execute(args []string) error {
 		if imagesCommand.Tree {
 			totalSize = 0
 			fmt.Print(jsonToTree(roots, imagesByParent, dispOpts))
+			fmt.Println("Size of all the images on disk - " + humanSize(totalSize))
 		}
 		if imagesCommand.Dot {
 			fmt.Print(jsonToDot(roots, imagesByParent, dispOpts))
 		}
 
 	} else if imagesCommand.Short {
+		fmt.println("4")
 		fmt.Printf(jsonToShort(images))
 	} else {
 		return fmt.Errorf("Please specify either --dot, --tree, or --short")
@@ -397,7 +402,7 @@ func PrintTreeNode(buffer *bytes.Buffer, image Image, dispOpts DisplayOpts, pref
 	}
 
 	totalSize = totalSize + size
-	
+
 	var sizeStr string
 	if dispOpts.NoHuman {
 		sizeStr = strconv.FormatInt(size, 10)
