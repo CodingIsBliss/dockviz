@@ -43,6 +43,8 @@ type DisplayOpts struct {
 	ShowCreatedBy bool
 }
 
+var totalSize int64
+
 var imagesCommand ImagesCommand
 
 func (x *ImagesCommand) Execute(args []string) error {
@@ -165,6 +167,7 @@ func (x *ImagesCommand) Execute(args []string) error {
 			imagesCommand.ShowCreatedBy,
 		}
 		if imagesCommand.Tree {
+			totalSize = 0
 			fmt.Print(jsonToTree(roots, imagesByParent, dispOpts))
 		}
 		if imagesCommand.Dot {
@@ -393,6 +396,8 @@ func PrintTreeNode(buffer *bytes.Buffer, image Image, dispOpts DisplayOpts, pref
 		size = image.VirtualSize
 	}
 
+	totalSize = totalSize + size
+	
 	var sizeStr string
 	if dispOpts.NoHuman {
 		sizeStr = strconv.FormatInt(size, 10)
