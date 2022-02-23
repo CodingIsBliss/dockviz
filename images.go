@@ -133,9 +133,9 @@ func (x *ImagesCommand) Execute(args []string) error {
 		}
 	}
 
-	fmt.println("1")
+	fmt.Println("1")
 	if imagesCommand.Tree || imagesCommand.Dot {
-		fmt.println("2")
+		fmt.Println("2")
 		var startImage *Image
 		if len(args) > 0 {
 			startImage, err = findStartImage(args[0], images)
@@ -154,7 +154,7 @@ func (x *ImagesCommand) Execute(args []string) error {
 			roots = []Image{*startImage}
 		}
 
-		fmt.println("3")
+		fmt.Println("3")
 		// build helper map (image -> children)
 		imagesByParent := collectChildren(images)
 
@@ -179,7 +179,7 @@ func (x *ImagesCommand) Execute(args []string) error {
 		}
 
 	} else if imagesCommand.Short {
-		fmt.println("4")
+		fmt.Println("4")
 		fmt.Printf(jsonToShort(images))
 	} else {
 		return fmt.Errorf("Please specify either --dot, --tree, or --short")
